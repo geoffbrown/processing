@@ -43,8 +43,8 @@ public void draw(){
 	// while i is less than the width of the window
 	while (i<width){
 		noStroke();
-		float distance = abs(mouseX - i);
-		println("distance: "+distance);
+		float distance = abs(mouseY - i);
+		//println("distance: "+distance);
 		fill(distance);
 		rect(i, 0, 10, height);
 		// increase i by 10;

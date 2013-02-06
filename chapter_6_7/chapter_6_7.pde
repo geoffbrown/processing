@@ -29,7 +29,7 @@ void draw(){
 	while (i<width){
 		noStroke();
 		float distance = abs(mouseX - i);
-		println("distance: "+distance);
+		//println("distance: "+distance);
 		fill(distance);
 		rect(i, 0, 10, height);
 		// increase i by 10;
