@@ -13,6 +13,8 @@ import java.io.IOException;
 
 public class chapter_7_5 extends PApplet {
 
+//on page 109
+
 int x = 100;
 int y = 100;
 // int thesize = 64;
@@ -24,6 +26,7 @@ public void setup(){
 }
 
 public void draw(){
+	background(255);
 	drawCar(100,100,64,color(200,200,0));
 	drawCar(50,75,32,color(0,200,100));
 	drawCar(80,175,40,color(200,0,0));
