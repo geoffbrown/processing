@@ -22,11 +22,9 @@ public void setup(){
 }
 
 public void draw(){
-	// smooth();
 }
 
 public void mousePressed(){
-	// println("pressed!");
 	myCircle.display();
 }
 
@@ -46,22 +44,16 @@ class Circle
 	
 	Circle() {
 		c = color(0);
-		// xpos = mouseX;
-		// ypos = mouseY;
 		w = 50;
 		h = 50;
-
-		
 	}
 
 	public void display() {
 		xpos = mouseX;
 		ypos = mouseY;
 		ellipseMode(CENTER);
-		// fill(c);
-		fill(xpos);
+		fill(c);
 		noStroke();
-		//ellipse(mouseX, mouseY, w, h);
 		ellipse(xpos, ypos, w, h);
 	}
 }
