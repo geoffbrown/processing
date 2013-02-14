@@ -20,7 +20,7 @@ public void setup(){
 	background(0);
 	myBall1 = new Ball(255,50,50,2,.4f);
 
-	myBall1.setPos(width/2, -100);
+	myBall1.setPos(width/2, -100); // initial ball drop
 }
 
 public void draw(){
