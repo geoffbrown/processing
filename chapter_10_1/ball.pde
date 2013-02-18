@@ -1,21 +1,23 @@
 class Ball
 {
 	
-	float r;				// radius of the ball
-	float x,y;				// location
-	float xspeed, yspeed; 	// speed
+	float r;					// radius of the ball
+	float x,y;					// location
+	float xspeed, yspeed; 		// speed
+	color c = color(100,50);	// color
+	color cLock = color(100,50);
 
 	//--------------------------------------
 	//  CONSTRUCTOR
 	//--------------------------------------
 	
-	Ball (float r_, float speed_) {
+	Ball (float r_) {
 		// expression
 		r = r_;
 		x = random(0, width);
 		y = random(0, height);
-		xspeed = speed_;
-		yspeed = speed_;
+		xspeed = random(-5,5);
+		yspeed = random(-5,5);
 	}
 
 	void move(){
@@ -31,9 +33,23 @@ class Ball
 		}
 	}
 
+	void highlight() {
+		c = color(0,150);
+	}
+
 	void display(){
-		stroke(0);
-		fill(0,50);
+		noStroke();
+		fill(c);
 		ellipse(x, y, r*2, r*2);
+		c = cLock;
+	}
+
+	boolean intersect(Ball b) {
+		float distance = dist(x, y, b.x, b.y);
+		if (distance < r + b.r){
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
