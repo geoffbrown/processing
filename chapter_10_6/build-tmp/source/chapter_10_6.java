@@ -13,19 +13,32 @@ import java.io.IOException;
 
 public class chapter_10_6 extends PApplet {
 
-Drop[] drops = new Drop[50];
+Drop[] drops = new Drop[1000];
+
+int totalDrops = 0;
 
 public void setup(){
 	size(400, 400);
 	smooth();
-	for (int i = 0; i<drops.length; i++){
-		drops[i] = new Drop();
-	}
+
 }
 
 public void draw(){
 	background(255);
-	for (int i = 0; i<drops.length; i++){
+
+	// initialize one drop
+	drops[totalDrops] = new Drop();
+
+	// increment totalDrops
+	totalDrops++;
+
+	//if we hit the end of the array
+	if (totalDrops >= drops.length){
+		totalDrops = 0; // start over
+	}
+
+
+	for (int i = 0; i<totalDrops; i++){
 		drops[i].display();
 		drops[i].move();
 	}
@@ -46,9 +59,14 @@ class Drop {
 	}
 
 	public void display(){
-		fill(c);
-		noStroke();
-		ellipse(x, y, r, r);
+	
+		// ellipse(x, y, r, r);
+
+		for (int i = 2; i<8; i++){
+			fill(c);
+			noStroke();
+			ellipse(x, y+i*4, i*2, i*2);
+		}
 	}
 
 	public void move() {

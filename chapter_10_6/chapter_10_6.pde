@@ -1,16 +1,29 @@
-Drop[] drops = new Drop[50];
+Drop[] drops = new Drop[1000];
+
+int totalDrops = 0;
 
 void setup(){
 	size(400, 400);
 	smooth();
-	for (int i = 0; i<drops.length; i++){
-		drops[i] = new Drop();
-	}
+
 }
 
 void draw(){
 	background(255);
-	for (int i = 0; i<drops.length; i++){
+
+	// initialize one drop
+	drops[totalDrops] = new Drop();
+
+	// increment totalDrops
+	totalDrops++;
+
+	//if we hit the end of the array
+	if (totalDrops >= drops.length){
+		totalDrops = 0; // start over
+	}
+
+
+	for (int i = 0; i<totalDrops; i++){
 		drops[i].display();
 		drops[i].move();
 	}

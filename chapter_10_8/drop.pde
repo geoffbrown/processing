@@ -34,4 +34,10 @@ class Drop {
 			return false;
 		}
 	}
+
+	void caught() {
+		speed = 0;
+		y = -1000;
+		println("got that fukr");
+	}
 }
