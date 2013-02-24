@@ -17,28 +17,49 @@ Catcher catcher;				// one catcher object
 Timer timer;					// one timer object
 Drop[] drops;					// an array of drop objects
 
+Scoreboard scoreboard;			// one scoreboard object
+
 int totalDrops = 0;				// totalDrops
 
 
 public void setup(){
 	size(400, 400);
 	noStroke();
-	catcher = new Catcher(32);	// create catcher w/ radius of 32
-	drops = new Drop[1000];		// create 1k spots in the array
-	timer = new Timer(300);	// create a 2 sec timer
-
-	timer.start();				// starts the timer
+	catcher = new Catcher(32);			// create catcher w/ radius of 32
+	drops = new Drop[1000];				// create 1k spots in the array
+	timer = new Timer(200);				// create a 2 sec timer
+	
+	scoreboard = new Scoreboard(10);		// create a scoreboard obj with n tries	
+	timer.start();						// starts the timer
 
 }
 
 public void draw(){
-	background(255);
 
+
+	background(255);
+	
+	// creates the visual scoring system with the following sizes + margins
+	scoreboard.displayBoxes(30,5,200);		// set up display parameters --> width, margin, color
 	catcher.setLocation(mouseX, mouseY);	// set catcher loc
 	catcher.display();						// display catcher
 
-	// check the timer
-	if(timer.isFinished()) {
+	isGameOver();
+	checkTimer();
+	detectDrops();
+}
+
+public void isGameOver(){
+	if (scoreboard.gameOver()){
+		for (int i = 0; i<totalDrops; i++){
+			drops[i].caught();
+		}
+	}
+}
+
+public void checkTimer(){
+// check the timer
+	if (timer.isFinished()) {
 
 		// deal with raindrops
 		// initialize one drop
@@ -54,21 +75,40 @@ public void draw(){
 
 		timer.start();
 	}
+}
 
-
-	// boolean intersecting = ball1.intersect(ball2);
-	// if(intersecting) {
-	// 	println('circles. intersecting. crazy.')
-	// }
-
-	
-
-	for (int i = 0; i<totalDrops; i++){
+public void detectDrops(){
+		for (int i = 0; i<totalDrops; i++){
 		drops[i].display();
 		drops[i].move();
 		if (catcher.intersect(drops[i])){
 			drops[i].caught();
+
 		}
+		if (drops[i].reachedBottom()){
+			drops[i].missed();
+		}
+
+	}
+}
+class Box {
+
+	int x;
+	int y;
+	int w;
+	int c;
+
+	Box(int x_, int y_, int w_, int c_){
+		x = x_;
+		y = y_;
+		w = w_;
+		c = c_;
+	}
+
+	public void display(){
+		noStroke();
+		fill(c);
+		rect(x, y, w, w);
 	}
 
 }
@@ -94,6 +134,7 @@ class Catcher
 
 	public void display(){
 		fill(175);
+		noStroke();
 		ellipse(x, y, r*2, r*2);
 	}
 
@@ -124,8 +165,6 @@ class Drop {
 	}
 
 	public void display(){
-	
-		// ellipse(x, y, r, r);
 
 		for (int i = 2; i<8; i++){
 			fill(c);
@@ -146,11 +185,75 @@ class Drop {
 		}
 	}
 
+	public void missed() {
+		speed = 0;
+		y = -1000;
+		scoreboard.removeTry();
+	}
+
 	public void caught() {
 		speed = 0;
 		y = -1000;
-		println("got that fukr");
 	}
+
+}
+class Scoreboard {
+
+	Box[] boxes;
+
+	int x;
+	int y;
+	int w; 
+	int m;
+	int c;
+
+	int totalTries; // reset variable that stayes the total number of tries
+	int count; // count down variable
+
+	// constructor 1 that only takes total number of tries
+	Scoreboard(int totalTries_) {
+		totalTries = totalTries_;
+		count = 0;
+		boxes = new Box[totalTries_];
+		
+	}
+
+	// constructor 1 that gives count handicap
+	Scoreboard(int totalTries_, int count_) {
+		totalTries = totalTries_;
+		count = count_;	
+	}
+
+	public void removeTry() {
+		count++;
+		// boxes[count].changeColor();
+	}
+
+	public boolean gameOver() {
+		if (count >= totalTries){
+			//println("GAME OVER!!!!!");
+			count = totalTries;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void displayBoxes(int w_, int m_, int c_){
+		x = 0;
+		y = 0;
+		w = w_;
+		m = m_;
+		c = c_;
+
+		for (int i = 0; i<(totalTries-count); i++){	
+			boxes[i] = new Box(x,y,w,color(c));
+			boxes[i].display();
+			x = (x + w) + m;
+		}
+	}
+
+
 }
 class Timer {
 	int savedTime;			// when Timer started

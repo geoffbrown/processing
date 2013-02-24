@@ -20,6 +20,7 @@ class Catcher
 
 	void display(){
 		fill(175);
+		noStroke();
 		ellipse(x, y, r*2, r*2);
 	}
 

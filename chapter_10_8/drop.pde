@@ -13,8 +13,6 @@ class Drop {
 	}
 
 	void display(){
-	
-		// ellipse(x, y, r, r);
 
 		for (int i = 2; i<8; i++){
 			fill(c);
@@ -35,9 +33,15 @@ class Drop {
 		}
 	}
 
+	void missed() {
+		speed = 0;
+		y = -1000;
+		scoreboard.removeTry();
+	}
+
 	void caught() {
 		speed = 0;
 		y = -1000;
-		println("got that fukr");
 	}
+
 }
