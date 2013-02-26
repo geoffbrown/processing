@@ -9,7 +9,7 @@ void setup(){
 	for (int i = 0; i<randoms.length; i++){
 		randoms[i] = random(0, 256);
 	}
-	frameRate(5);
+	frameRate(5 );
 }
 
 void draw(){
